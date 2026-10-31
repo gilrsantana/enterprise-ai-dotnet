@@ -1,31 +1,58 @@
-# AI Engineering Learning Track with .NET & C#
+# Trilha de Aprendizado em Engenharia de IA com .NET & C#
 
-> **Building Enterprise, Resilient, and Scalable Artificial Intelligence Systems Through a Software Engineering Lens.**
-
----
-
-## 0. Introduction: The Role of Software Engineering in AI with .NET
-
-### 0.1 Context and Curriculum Rationale
-The contemporary Generative Artificial Intelligence ecosystem is largely dominated by libraries, tutorials, and materials tailored for Python and JavaScript/TypeScript. While those languages excel at rapid prototyping, scientific experimentation, and notebook scripting, the reality of **large-scale enterprise production engineering** introduces substantially different engineering challenges:
-
-- **Tight coupling**: scripts that interweave direct AI API calls with core business logic.
-- **Lack of Type Safety**: fragile schema validation and runtime failures on LLM responses due to lack of compile-time static typing.
-- **Operational fragility**: missing robust resilience policies (retries, fallbacks, circuit breakers) and decoupled dependency injection.
-- **Naive RAG**: oversimplified implementations relying on arbitrary chunking and cosine vector searches that fall short in complex enterprise domains.
-- **Unstructured prose instructions**: monolithic free-text prompts causing high rates of constraint violations (*Rule Violations*) and runaway token consumption.
-- **Absence of Execution Contracts**: lack of a formal boundary separating the execution runtime from agent business invariants and acceptance criteria.
-- **Governance and security deficits**: pipelines lacking auditable data trails, standardized telemetry, and protection against emerging AI-specific threats (OWASP Top 10 for LLMs).
-
-The **.NET (C#)** ecosystem is historically recognized for its enterprise-grade excellence in mission-critical systems, high-performance asynchronous concurrency, strong typing, and first-class architectural patterns. With Microsoft's recent investments — notably **`Microsoft.Extensions.AI` (MEAI)**, **`Microsoft.Extensions.AI.Evaluation`**, the **Microsoft Agent Framework (MAF)**, **Semantic Kernel**, and **ML.NET** —, the .NET platform provides a unified, enterprise-ready toolchain.
-
-This repository outlines a progressive, hands-on journey across **16 Modules** designed to train developers to operate as **AI Engineers with .NET**, covering the full development lifecycle end-to-end without superficial shortcuts.
+> **Construindo Sistemas de Inteligência Artificial Corporativos, Resilientes e Escaláveis sob a Ótica da Engenharia de Software.**
 
 ---
 
-### 0.2 Architectural Pillars of the Curriculum
+## Sumário
 
-All modules and capstone projects in this curriculum are built upon four non-negotiable engineering pillars:
+- [0. Introdução: O Papel da Engenharia de Software em IA com .NET](#0-introdução-o-papel-da-engenharia-de-software-em-ia-com-net)
+  - [0.1 Contexto e Justificativa do Currículo](#01-contexto-e-justificativa-do-currículo)
+  - [0.2 Pilares Arquiteturais do Currículo](#02-pilares-arquiteturais-do-currículo)
+- [1. Programa dos Módulos e Capstone Projects](#1-programa-dos-módulos-e-capstone-projects)
+  - [Módulo 01: Fundamentos de Conectividade e Abstração Unificada com `Microsoft.Extensions.AI`](#módulo-01-fundamentos-de-conectividade-e-abstração-unificada-com-microsoftextensionsai)
+  - [Módulo 02: Gateway Unificado de Modelos, Roteamento Dinâmico e OpenRouter](#módulo-02-gateway-unificado-de-modelos-roteamento-dinâmico-e-openrouter)
+  - [Módulo 03: LangChain em C# (LangChain.NET) vs. Ecossistema Oficial da Microsoft: Revisão Crítica e Engenharia Comparativa](#módulo-03-langchain-em-c-langchainnet-vs-ecossistema-oficial-da-microsoft-revisão-crítica-e-engenharia-comparativa)
+  - [Módulo 04: Sessões de Usuário, Histórico Resiliente e Gerenciamento de Memória de Agentes](#módulo-04-sessões-de-usuário-histórico-resiliente-e-gerenciamento-de-memória-de-agentes)
+  - [Módulo 05: RAG Corporativo: Arquitetura Avançada, Busca Híbrida, GraphRAG e Evals](#módulo-05-rag-corporativo-arquitetura-avançada-busca-híbrida-graphrag-e-evals)
+  - [Módulo 06: IA Local Soberana com Ollama vs. Cloud: Análise de Trade-offs e Estratégia Híbrida](#módulo-06-ia-local-soberana-com-ollama-vs-cloud-análise-de-trade-offs-e-estratégia-híbrida)
+  - [Módulo 07: Engenharia Avançada de Prompts, Notações Estruturadas (JSON/YAML/TON) e Multimodalidade](#módulo-07-engenharia-avançada-de-prompts-notações-estruturadas-jsonyamlton-e-multimodalidade)
+  - [Módulo 08: Governança, Contratos de Uso, Privacidade e Zero Data Retention](#módulo-08-governança-contratos-de-uso-privacidade-e-zero-data-retention)
+  - [Módulo 09: Observabilidade Transversal, FinOps de Tokens e Dashboards com OpenTelemetry](#módulo-09-observabilidade-transversal-finops-de-tokens-e-dashboards-com-opentelemetry)
+  - [Módulo 10: Segurança Ofensiva e Defensiva: OWASP Top 10 for LLMs, Prompt Injection e Guardrails](#módulo-10-segurança-ofensiva-e-defensiva-owasp-top-10-for-llms-prompt-injection-e-guardrails)
+  - [Módulo 11: Machine Learning Clássico com ML.NET: Modelos Preditivos e Hibridização com GenAI](#módulo-11-machine-learning-clássico-com-mlnet-modelos-preditivos-e-hibridização-com-genai)
+  - [Módulo 12: Extensibilidade com Model Context Protocol (MCP) em .NET](#módulo-12-extensibilidade-com-model-context-protocol-mcp-em-net)
+  - [Módulo 13: Agentes de IA com Microsoft Agent Framework (MAF), Semantic Kernel e Declarative Agents](#módulo-13-agentes-de-ia-com-microsoft-agent-framework-maf-semantic-kernel-e-declarative-agents)
+  - [Módulo 14: Orquestração Multiagente Avançada: Workflows em Grafo, Máquinas de Estado e Execução Paralela/Sequencial](#módulo-14-orquestração-multiagente-avançada-workflows-em-grafo-máquinas-de-estado-e-execução-paralelasequencial)
+  - [Módulo 15: Design by Contract (DbC) para Agentes Autônomos em C#](#módulo-15-design-by-contract-dbc-para-agentes-autônomos-em-c)
+  - [Módulo 16: Grand Master Capstone — A Plataforma Agêntica Corporativa](#módulo-16-grand-master-capstone--a-plataforma-agêntica-corporativa)
+- [2. Como Utilizar este Repositório](#2-como-utilizar-este-repositório)
+- [3. Meta-Prompt: Gerador de Guias de Estudo e Especificações Arquiteturais](#3-meta-prompt-gerador-de-guias-de-estudo-e-especificações-arquiteturais)
+
+---
+
+## 0. Introdução: O Papel da Engenharia de Software em IA com .NET
+
+### 0.1 Contexto e Justificativa do Currículo
+O ecossistema contemporâneo de Inteligência Artificial Generativa é amplamente dominado por bibliotecas, tutoriais e materiais voltados para Python e JavaScript/TypeScript. Embora essas linguagens se destaquem na prototipagem rápida, experimentação científica e scripting em notebooks, a realidade da **engenharia de produção corporativa em larga escala** introduz desafios substancialmente diferentes:
+
+- **Acoplamento forte (Tight coupling)**: scripts que entrelaçam chamadas diretas de APIs de IA com a lógica de negócios central.
+- **Falta de Type Safety**: validação frágil de schemas e falhas em tempo de execução nas respostas de LLMs devido à ausência de tipagem estática em tempo de compilação.
+- **Fragilidade operacional**: ausência de políticas robustas de resiliência (retries, fallbacks, circuit breakers) e de injeção de dependência desacoplada.
+- **Naive RAG**: implementações supersimplificadas que dependem de chunking arbitrário e buscas vetoriais por similaridade de cosseno que falham em domínios corporativos complexos.
+- **Instruções em prosa não estruturada**: prompts monolíticos em texto livre que causam altas taxas de violação de restrições (*Rule Violations*) e consumo descontrolado de tokens.
+- **Ausência de Contratos de Execução**: falta de uma fronteira formal separando o runtime de execução dos invariantes de negócio e critérios de aceitação dos agentes.
+- **Déficits de governança e segurança**: pipelines sem trilhas de auditoria de dados, telemetria padronizada e proteção contra ameaças emergentes específicas de IA (OWASP Top 10 for LLMs).
+
+O ecossistema **.NET (C#)** é historicamente reconhecido por sua excelência de nível corporativo em sistemas de missão crítica, concorrência assíncrona de alta performance, tipagem forte e design patterns consolidados. Com os investimentos recentes da Microsoft — notadamente **`Microsoft.Extensions.AI` (MEAI)**, **`Microsoft.Extensions.AI.Evaluation`**, o **Microsoft Agent Framework (MAF)**, **Semantic Kernel** e **ML.NET** —, a plataforma .NET oferece uma toolchain unificada e pronta para o ambiente corporativo.
+
+Este repositório estabelece uma jornada progressiva e prática ao longo de **16 Módulos** projetados para capacitar desenvolvedores a atuar como **Engenheiros de IA com .NET**, cobrindo o ciclo de vida completo de desenvolvimento de ponta a ponta, sem atalhos superficiais.
+
+---
+
+### 0.2 Pilares Arquiteturais do Currículo
+
+Todos os módulos e capstone projects deste currículo são construídos sobre quatro pilares de engenharia não negociáveis:
 
 ```text
 +---------------------------------------------------------------------------------------+
@@ -48,400 +75,400 @@ All modules and capstone projects in this curriculum are built upon four non-neg
 +---------------------------------------------------------------------------------------+
 ```
 
-1. **SOLID Principles Applied to AI**:
-   - **SRP (Single Responsibility)**: Strict separation between inference models, structured prompt orchestration, defensive guardrails, and conversation history persistence.
-   - **OCP (Open/Closed)**: Extensibility of the chat execution pipeline via delegating handlers (chat middlewares) without modifying underlying clients.
-   - **LSP (Liskov Substitution)**: Seamless swapping across model providers (local Ollama, OpenAI, Azure OpenAI, Anthropic) while preserving domain contracts.
-   - **ISP (Interface Segregation)**: Focused, single-purpose abstractions (`IChatClient`, `IEmbeddingGenerator`, `IToolRegistry`, `IEvaluator`).
-   - **DIP (Dependency Inversion)**: Business logic depends solely on .NET abstractions, never on proprietary vendor SDKs.
+1. **Princípios SOLID Aplicados à IA**:
+   - **SRP (Single Responsibility Principle)**: Separação estrita entre modelos de inferência, orquestração estruturada de prompts, guardrails defensivos e persistência de histórico de conversação.
+   - **OCP (Open/Closed Principle)**: Extensibilidade do pipeline de execução de chat via delegating handlers (chat middlewares) sem modificar os clientes subjacentes.
+   - **LSP (Liskov Substitution Principle)**: Troca transparente entre provedores de modelos (Ollama local, OpenAI, Azure OpenAI, Anthropic) preservando os contratos de domínio.
+   - **ISP (Interface Segregation Principle)**: Abstrações focadas e de propósito único (`IChatClient`, `IEmbeddingGenerator`, `IToolRegistry`, `IEvaluator`).
+   - **DIP (Dependency Inversion Principle)**: A lógica de negócios depende exclusivamente de abstrações .NET, nunca de SDKs proprietários de fornecedores.
 
-2. **Structural and Behavioral Design Patterns**:
-   - **Decorator / Chain of Responsibility**: Implemented via the `DelegatingChatClient` pipeline for audit logging, telemetry, caching, rate limiting, and moderation.
-   - **Strategy & Factory**: Dynamic selection and instantiation of the optimal model or provider based on cost, latency, or context window constraints.
-   - **Adapter**: Integration of legacy systems and enterprise APIs into the universal Model Context Protocol (MCP) format.
-   - **Directed Acyclic Graph (DAG) / Saga**: Deterministic multi-agent coordination across workflows with branching and compensatory actions.
-   - **Design by Contract (DbC)**: Formal specification of Preconditions, Invariants, and Postconditions/Acceptance Criteria for dependable agent execution.
+2. **Design Patterns Estruturais e Comportamentais**:
+   - **Decorator / Chain of Responsibility**: Implementado via pipeline de `DelegatingChatClient` para logs de auditoria, telemetria, caching, rate limiting e moderação.
+   - **Strategy & Factory**: Seleção dinâmica e instanciação do modelo ou provedor ideal com base em restrições de custo, latência ou context window.
+   - **Adapter**: Integração de sistemas legados e APIs corporativas no formato universal do Model Context Protocol (MCP).
+   - **Directed Acyclic Graph (DAG) / Saga**: Coordenação determinística multiagente em workflows com ramificações e ações compensatórias.
+   - **Design by Contract (DbC)**: Especificação formal de Pré-condições (Preconditions), Invariantes (Invariants) e Pós-condições/Critérios de Aceitação (Postconditions / Acceptance Criteria) para execução confiável de agentes.
 
 3. **The Twelve-Factor App & The Twelve-Factor Agent**:
-   - Adoption of stateless processes, decoupled backing services (for vector databases and caches), isolated configuration via environment variables, and telemetry treated as continuous event streams.
-   - Implementation of the 12 tenets for autonomous agents: strict separation of the **Deterministic Control Plane (Finite State Machines / Harel Statecharts)** from stochastic generative model execution, tenant and credential isolation, compact schemas (JSON/TON), tool idempotency, and explicit Human-in-the-Loop approval gates (see **[Module 14: Advanced Multi-Agent Orchestration & State Machines](#module-14-advanced-multi-agent-orchestration-graph-workflows-state-machines-and-parallelsequential-execution)**).
+   - Adoção de processos stateless, backing services desacoplados (para bancos vetoriais e caches), configuração isolada via variáveis de ambiente e telemetria tratada como fluxos contínuos de eventos.
+   - Implementação dos 12 preceitos para agentes autônomos: separação estrita do **Deterministic Control Plane (Finite State Machines / Harel Statecharts)** da execução estocástica do modelo generativo, isolamento de tenant e credenciais, schemas compactos (JSON/TON), idempotência de tools e approval gates explícitos com Human-in-the-Loop (veja **[Módulo 14: Orquestração Multiagente Avançada: Workflows em Grafo, Máquinas de Estado e Execução Paralela/Sequencial](#módulo-14-orquestração-multiagente-avançada-workflows-em-grafo-máquinas-de-estado-e-execução-paralelasequencial)**).
 
 ---
 
-## 1. Modules and Capstone Projects Syllabus
+## 1. Programa dos Módulos e Capstone Projects
 
 ---
 
-### Module 01: Connectivity Fundamentals and Unified Abstraction with `Microsoft.Extensions.AI`
-- **Context & Goals**: Consume multiple AI providers (OpenAI, Azure OpenAI, Anthropic, Gemini) without vendor lock-in; master inference hyperparameters (`Temperature`, `TopK`, `TopP`, `MaxTokens`, `StopSequences`); measure and benchmark latency, cost (price per 1K tokens), and throughput (tokens per second).
-- **Abstractions & Frameworks**: `Microsoft.Extensions.AI`, `IChatClient`, `ChatOptions`, `ChatResponse`, `OpenAI` client, `Azure.AI.OpenAI`.
-- **Principles & Patterns**: Dependency Injection (.NET ServiceCollection), Strategy Pattern, Factory Pattern, Single Responsibility Principle (SRP).
-- **Microsoft Learn References**:
-  - [IChatClient concepts in .NET](https://learn.microsoft.com/dotnet/ai/ichatclient)
-  - [API Reference: IChatClient](https://learn.microsoft.com/dotnet/api/microsoft.extensions.ai.ichatclient)
+### Módulo 01: Fundamentos de Conectividade e Abstração Unificada com `Microsoft.Extensions.AI`
+- **Contexto & Objetivos**: Consumir múltiplos provedores de IA (OpenAI, Azure OpenAI, Anthropic, Gemini) sem vendor lock-in; dominar hiperparâmetros de inferência (`Temperature`, `TopK`, `TopP`, `MaxTokens`, `StopSequences`); medir e realizar benchmarking de latência, custo (preço por 1K tokens) e throughput (tokens por segundo).
+- **Abstrações & Frameworks**: `Microsoft.Extensions.AI`, `IChatClient`, `ChatOptions`, `ChatResponse`, cliente `OpenAI`, `Azure.AI.OpenAI`.
+- **Princípios & Padrões**: Injeção de Dependência (.NET ServiceCollection), Strategy Pattern, Factory Pattern, Single Responsibility Principle (SRP).
+- **Referências do Microsoft Learn**:
+  - [Conceitos de IChatClient em .NET](https://learn.microsoft.com/dotnet/ai/ichatclient)
+  - [Referência de API: IChatClient](https://learn.microsoft.com/dotnet/api/microsoft.extensions.ai.ichatclient)
 - **Capstone Project 01**:
-  - *Name*: `AiProviderBenchmarker.Cli`
-  - *Path*: `src/Module01/AiProviderBenchmarker/` (with a quick demo in `src/Module01/SimpleChatDemo/`)
-  - *Run & Test*:
-    - Quick Demo: `dotnet run --project src/Module01/SimpleChatDemo`
-    - Interactive CLI: `dotnet run --project src/Module01/AiProviderBenchmarker/src/AiProviderBenchmarker.Cli`
-    - Test Suite: `dotnet test src/Module01/AiProviderBenchmarker/AiProviderBenchmarker.slnx`
-  - *Scope*: C# Console Application built with Clean Architecture that injects an `IChatClientFactory`. The application dispatches an identical batch of prompts across multiple providers concurrently, rendering real-time token-by-token streaming and a comparative table with metrics: TTFT (Time To First Token), total tokens generated, elapsed latency, and estimated FinOps cost.
+  - *Nome*: `AiProviderBenchmarker.Cli`
+  - *Caminho*: `src/Module01/AiProviderBenchmarker/` (com uma demo rápida em `src/Module01/SimpleChatDemo/`)
+  - *Executar & Testar*:
+    - Demo Rápida: `dotnet run --project src/Module01/SimpleChatDemo`
+    - CLI Interativa: `dotnet run --project src/Module01/AiProviderBenchmarker/src/AiProviderBenchmarker.Cli`
+    - Suíte de Testes: `dotnet test src/Module01/AiProviderBenchmarker/AiProviderBenchmarker.slnx`
+  - *Escopo*: Console Application em C# construída com Clean Architecture que injeta uma `IChatClientFactory`. A aplicação despacha um lote idêntico de prompts para múltiplos provedores concorrentemente, renderizando streaming token a token em tempo real e uma tabela comparativa com métricas: TTFT (Time To First Token), total de tokens gerados, latência decorrida e custo estimado de FinOps.
 
 ---
 
-### Module 02: Unified Model Gateway, Dynamic Routing, and OpenRouter
-- **Context & Goals**: Build an enterprise AI gateway using aggregators like OpenRouter alongside internal intelligent routing; switch models dynamically at runtime based on payload size, cost, or latency thresholds; implement automated failover with Polly circuit breakers and retries.
-- **Abstractions & Frameworks**: `Microsoft.Extensions.AI`, `DelegatingChatClient`, `Polly` (resilience in .NET), `System.Net.Http`.
-- **Principles & Patterns**: Decorator Pattern (ChatClient Middleware), Circuit Breaker, Fallback Strategy, Twelve-Factor: Factor IV (Backing Services treated as attached resources).
-- **Microsoft Learn References**:
+### Módulo 02: Gateway Unificado de Modelos, Roteamento Dinâmico e OpenRouter
+- **Contexto & Objetivos**: Construir um gateway corporativo de IA utilizando agregadores como OpenRouter em conjunto com roteamento inteligente interno; alternar modelos dinamicamente em runtime com base no tamanho do payload, custo ou limites de latência; implementar failover automatizado com circuit breakers e retries do Polly.
+- **Abstrações & Frameworks**: `Microsoft.Extensions.AI`, `DelegatingChatClient`, `Polly` (resiliência em .NET), `System.Net.Http`.
+- **Princípios & Padrões**: Decorator Pattern (ChatClient Middleware), Circuit Breaker, Fallback Strategy, Twelve-Factor: Fator IV (Backing Services tratados como recursos anexados).
+- **Referências do Microsoft Learn**:
   - [Custom IChatClient Middleware](https://learn.microsoft.com/dotnet/ai/ichatclient#custom-ichatclient-middleware)
-  - [HTTP Resilience in .NET with Polly](https://learn.microsoft.com/dotnet/core/resilience/http-resilience)
+  - [Resiliência HTTP em .NET com Polly](https://learn.microsoft.com/dotnet/core/resilience/http-resilience)
 - **Capstone Project 02**:
-  - *Name*: `SmartRouter.Gateway`
-  - *Path*: `src/Module02/SmartRouter/`
-  - *Run & Test*:
+  - *Nome*: `SmartRouter.Gateway`
+  - *Caminho*: `src/Module02/SmartRouter/`
+  - *Executar & Testar*:
     - Minimal API: `dotnet run --project src/Module02/SmartRouter/src/SmartRouter.Gateway`
-    - Test Suite: `dotnet test src/Module02/SmartRouter/SmartRouter.slnx`
-  - *Scope*: C# ASP.NET Core Minimal API encapsulating a `SmartRoutingChatClient` inheriting from `DelegatingChatClient`. The client dynamically evaluates requests: short, cost-sensitive queries route to an economic tier (e.g., OpenRouter / Ollama); upon network errors, timeouts, or circuit trip, resilient failover automatically redirects calls to the premium high-availability tier (e.g., Azure OpenAI / OpenAI). Includes SSE streaming and health diagnostics.
+    - Suíte de Testes: `dotnet test src/Module02/SmartRouter/SmartRouter.slnx`
+  - *Escopo*: ASP.NET Core Minimal API em C# encapsulando um `SmartRoutingChatClient` herdando de `DelegatingChatClient`. O cliente avalia requisições dinamicamente: queries curtas e sensíveis a custo são roteadas para um tier econômico (ex.: OpenRouter / Ollama); em caso de erros de rede, timeouts ou acionamento do circuit breaker, o failover resiliente redireciona chamadas automaticamente para o tier premium de alta disponibilidade (ex.: Azure OpenAI / OpenAI). Inclui streaming SSE e diagnósticos de saúde (health checks).
 
 ---
 
-### Module 03: LangChain in C# (LangChain.NET) vs. Microsoft Official Ecosystem: Critical Review and Comparative Engineering
-- **Context & Goals**: Rigorous engineering evaluation of the LangChain ecosystem in .NET (`LangChain.NET` from the tryAGI community); conceptual mapping of *Prompts*, *Chains*, *Memory*, *Tools*, and *Agents* to Microsoft's canonical abstractions (`Microsoft.Extensions.AI`, `Semantic Kernel`, and `Microsoft Agent Framework`); in-depth analysis of architectural trade-offs, limitations, and risks in adopting community LangChain ports in production (violation of .NET idiomatic conventions and SOLID principles, governance and abandonware risk, lack of enterprise SLAs, leaky abstractions, GC/heap allocation overhead, absence of native OpenTelemetry/.NET Aspire integration and Native AOT support); decision matrix: when to consider LangChain for rapid prototyping and why Microsoft's official triad should be prioritized for enterprise production.
-- **Abstractions & Frameworks**: `LangChain` (tryAGI), `Microsoft.Extensions.AI` (`IChatClient`, `DelegatingChatClient`), `Microsoft.SemanticKernel`, `Microsoft.Agents.AI`, `System.Diagnostics.DiagnosticSource` / `ActivitySource`.
-- **Principles & Patterns**: Interface Segregation Principle (ISP), Dependency Inversion Principle (DIP), Decorator Pattern vs. Monolithic Chains, Benchmark & Comparative Analysis Pattern, Twelve-Factor Agent: Factor 1 (Deterministic Logic vs Stochastic Model) and Factor 8 (Native Observability).
-- **Microsoft Learn References**:
-  - [Overview of AI in .NET](https://learn.microsoft.com/dotnet/ai/)
-  - [Unified Abstractions with Microsoft.Extensions.AI](https://learn.microsoft.com/dotnet/ai/ichatclient)
-  - [Semantic Kernel Concepts and Framework Migration](https://learn.microsoft.com/semantic-kernel/overview/)
+### Módulo 03: LangChain em C# (LangChain.NET) vs. Ecossistema Oficial da Microsoft: Revisão Crítica e Engenharia Comparativa
+- **Contexto & Objetivos**: Avaliação rigorosa de engenharia do ecossistema LangChain em .NET (`LangChain.NET` da comunidade tryAGI); mapeamento conceitual de *Prompts*, *Chains*, *Memory*, *Tools* e *Agents* para as abstrações canônicas da Microsoft (`Microsoft.Extensions.AI`, `Semantic Kernel` e `Microsoft Agent Framework`); análise aprofundada de trade-offs arquiteturais, limitações e riscos na adoção de ports comunitários do LangChain em produção (violação de convenções idiomáticas do .NET e princípios SOLID, risco de governança e abandonware, falta de SLAs corporativos, leaky abstractions, overhead de alocação de heap/GC, ausência de integração nativa com OpenTelemetry/.NET Aspire e suporte a Native AOT); matriz de decisão: quando considerar LangChain para prototipagem rápida e por que a tríade oficial da Microsoft deve ser priorizada para produção corporativa.
+- **Abstrações & Frameworks**: `LangChain` (tryAGI), `Microsoft.Extensions.AI` (`IChatClient`, `DelegatingChatClient`), `Microsoft.SemanticKernel`, `Microsoft.Agents.AI`, `System.Diagnostics.DiagnosticSource` / `ActivitySource`.
+- **Princípios & Padrões**: Interface Segregation Principle (ISP), Dependency Inversion Principle (DIP), Decorator Pattern vs. Monolithic Chains, Padrão de Benchmark & Análise Comparativa, Twelve-Factor Agent: Fator 1 (Lógica Determinística vs Modelo Estocástico) e Fator 8 (Observabilidade Nativa).
+- **Referências do Microsoft Learn**:
+  - [Visão Geral de IA em .NET](https://learn.microsoft.com/dotnet/ai/)
+  - [Abstrações Unificadas com Microsoft.Extensions.AI](https://learn.microsoft.com/dotnet/ai/ichatclient)
+  - [Conceitos do Semantic Kernel e Migração de Frameworks](https://learn.microsoft.com/semantic-kernel/overview/)
 - **Capstone Project 03**:
-  - *Name*: `FrameworkComparison.Benchmarker`
-  - *Path*: `src/Module03/FrameworkComparison/`
-  - *Run & Test*:
-    - Comparative CLI: `dotnet run --project src/Module03/FrameworkComparison/src/FrameworkComparison.Cli`
-    - Test Suite: `dotnet test src/Module03/FrameworkComparison/FrameworkComparison.slnx`
-  - *Scope*: Architectural and performance benchmark application running the same enterprise workload (order triage with structured prompt, validation pipeline, and telemetry instrumentation) using two distinct implementations side-by-side: `LangChain.NET` vs. `Microsoft.Extensions.AI`. Generates comparative CLI and Markdown reports evaluating: execution time, memory allocation (GC Gen0/Gen1/Gen2 allocations via `GC.GetAllocatedBytesForCurrentThread`), call stack depth, OpenTelemetry tracing coverage, and .NET Dependency Injection compliance.
+  - *Nome*: `FrameworkComparison.Benchmarker`
+  - *Caminho*: `src/Module03/FrameworkComparison/`
+  - *Executar & Testar*:
+    - CLI Comparativa: `dotnet run --project src/Module03/FrameworkComparison/src/FrameworkComparison.Cli`
+    - Suíte de Testes: `dotnet test src/Module03/FrameworkComparison/FrameworkComparison.slnx`
+  - *Escopo*: Aplicação de benchmark arquitetural e de performance executando a mesma carga de trabalho corporativa (triagem de pedidos com prompt estruturado, pipeline de validação e instrumentação de telemetria) utilizando duas implementações distintas lado a lado: `LangChain.NET` vs. `Microsoft.Extensions.AI`. Gera relatórios comparativos em CLI e Markdown avaliando: tempo de execução, alocação de memória (alocações GC Gen0/Gen1/Gen2 via `GC.GetAllocatedBytesForCurrentThread`), profundidade do call stack, cobertura de tracing OpenTelemetry e conformidade com a Injeção de Dependência do .NET.
 
 ---
 
-### Module 04: User Sessions, Resilient History, and Agent Memory Management
-- **Context & Goals**: State management architecture for conversational agents and chat systems; strict separation between short-term working memory and long-term episodic memory; context compaction strategies, sliding windows with exact token counting, and periodic background summarization; guaranteeing 100% stateless agents persisted in external backing stores.
-- **Abstractions & Frameworks**: `Microsoft.Extensions.Caching.Distributed`, `StackExchange.Redis`, `System.Text.Json`, `Microsoft.Extensions.AI` (`ChatMessage`, `ChatRole`).
-- **Principles & Patterns**: Repository Pattern, Outbox/Event-Driven Pattern for memory consolidation, Twelve-Factor: Factor VI (Stateless Processes), Twelve-Factor Agent: Factor 2 (Stateless Agent Runtime).
-- **Microsoft Learn References**:
-  - [Conversation and Session Management in Agent Framework](https://learn.microsoft.com/agent-framework/concepts/agents/conversations/session)
-  - [Distributed Caching in ASP.NET Core](https://learn.microsoft.com/aspnet/core/performance/caching/distributed)
+### Módulo 04: Sessões de Usuário, Histórico Resiliente e Gerenciamento de Memória de Agentes
+- **Contexto & Objetivos**: Arquitetura de gerenciamento de estado para agentes conversacionais e sistemas de chat; separação estrita entre working memory de curto prazo e memória episódica de longo prazo; estratégias de compactação de contexto, sliding windows com contagem exata de tokens e sumarização periódica em segundo plano; garantia de agentes 100% stateless persistidos em backing stores externos.
+- **Abstrações & Frameworks**: `Microsoft.Extensions.Caching.Distributed`, `StackExchange.Redis`, `System.Text.Json`, `Microsoft.Extensions.AI` (`ChatMessage`, `ChatRole`).
+- **Princípios & Padrões**: Repository Pattern, Padrão Outbox/Event-Driven para consolidação de memória, Twelve-Factor: Fator VI (Processos Stateless), Twelve-Factor Agent: Fator 2 (Runtime de Agente Stateless).
+- **Referências do Microsoft Learn**:
+  - [Gerenciamento de Conversação e Sessão no Agent Framework](https://learn.microsoft.com/agent-framework/concepts/agents/conversations/session)
+  - [Distributed Caching no ASP.NET Core](https://learn.microsoft.com/aspnet/core/performance/caching/distributed)
 - **Capstone Project 04**:
-  - *Name*: `ResilientMemory.Core`
-  - *Path*: `src/Module04/ResilientMemory/`
-  - *Scope*: Multi-tenant conversational session management service. Employs a background pipeline monitoring session token limits in Redis: when reaching 75% of model context capacity, it triggers an asynchronous summarization job to condense older turns, preserving conversational flow, user identity, and bounded prompt costs.
+  - *Nome*: `ResilientMemory.Core`
+  - *Caminho*: `src/Module04/ResilientMemory/`
+  - *Escopo*: Serviço multitenant de gerenciamento de sessões conversacionais. Emprega um pipeline em segundo plano monitorando os limites de tokens da sessão no Redis: ao atingir 75% da capacidade de contexto do modelo, dispara um job assíncrono de sumarização para condensar turnos mais antigos, preservando a fluidez conversacional, a identidade do usuário e mantendo os custos de prompt delimitados.
 
 ---
 
-### Module 05: Enterprise RAG: Advanced Architecture, Hybrid Search, GraphRAG, and Evals
-- **Context & Goals**: Overcoming the pitfalls of *Naive RAG*; parsing complex enterprise documents (PDFs with financial tables, hierarchical Markdown); advanced chunking methods (Semantic Chunking, Parent-Document Retriever, Sentence-Window); **Hybrid Search** uniting dense vector search with sparse lexical search (BM25/Full-Text) through Reciprocal Rank Fusion (RRF); **Re-Ranking** with Cross-Encoders for noise reduction and context filtering; **GraphRAG** principles (Microsoft Research) with entity graph extraction and community summarization; RAG Triad evaluation (*Context Relevance*, *Groundedness / Faithfulness*, *Answer Relevance*) using `Microsoft.Extensions.AI.Evaluation`.
-- **Abstractions & Frameworks**: `IEmbeddingGenerator<TInput, TEmbedding>`, `Microsoft.Extensions.AI.Evaluation` (`GroundednessEvaluator`, `RelevanceEvaluator`, `RetrievalEvaluator`), `Microsoft.SemanticKernel.Connectors.Qdrant` / `AzureAISearch`, `Testcontainers`.
-- **Principles & Patterns**: Pipeline Pattern, Strategy Pattern for hybrid retrieval, Continuous Evaluation (CI/CD for AI), Twelve-Factor Agent: Factor 9 (Testability & Evaluation Suites).
-- **Microsoft Learn References**:
-  - [The Microsoft.Extensions.AI.Evaluation libraries](https://learn.microsoft.com/dotnet/ai/evaluation/libraries)
-  - [Evaluating Groundedness and Safety in .NET](https://learn.microsoft.com/dotnet/ai/evaluation/evaluate-safety)
-  - [Vector Store Connectors in Semantic Kernel](https://learn.microsoft.com/semantic-kernel/concepts/vector-store-connectors/)
-  - [Microsoft Research GraphRAG Overview](https://learn.microsoft.com/azure/developer/ai/intro-graphrag)
+### Módulo 05: RAG Corporativo: Arquitetura Avançada, Busca Híbrida, GraphRAG e Evals
+- **Contexto & Objetivos**: Superando as armadilhas do *Naive RAG*; parsing de documentos corporativos complexos (PDFs com tabelas financeiras, Markdown hierárquico); métodos avançados de chunking (Semantic Chunking, Parent-Document Retriever, Sentence-Window); **Hybrid Search** unindo busca vetorial densa com busca lexical esparsa (BM25/Full-Text) através de Reciprocal Rank Fusion (RRF); **Re-Ranking** com Cross-Encoders para redução de ruído e filtragem de contexto; princípios de **GraphRAG** (Microsoft Research) com extração de grafos de entidades e sumarização de comunidades; avaliação da Tríade de RAG (*Context Relevance*, *Groundedness / Faithfulness*, *Answer Relevance*) utilizando `Microsoft.Extensions.AI.Evaluation`.
+- **Abstrações & Frameworks**: `IEmbeddingGenerator<TInput, TEmbedding>`, `Microsoft.Extensions.AI.Evaluation` (`GroundednessEvaluator`, `RelevanceEvaluator`, `RetrievalEvaluator`), `Microsoft.SemanticKernel.Connectors.Qdrant` / `AzureAISearch`, `Testcontainers`.
+- **Princípios & Padrões**: Pipeline Pattern, Strategy Pattern para recuperação híbrida, Avaliação Contínua (CI/CD para IA), Twelve-Factor Agent: Fator 9 (Testabilidade & Suítes de Avaliação).
+- **Referências do Microsoft Learn**:
+  - [As bibliotecas Microsoft.Extensions.AI.Evaluation](https://learn.microsoft.com/dotnet/ai/evaluation/libraries)
+  - [Avaliando Groundedness e Segurança em .NET](https://learn.microsoft.com/dotnet/ai/evaluation/evaluate-safety)
+  - [Conectores de Vector Store no Semantic Kernel](https://learn.microsoft.com/semantic-kernel/concepts/vector-store-connectors/)
+  - [Visão Geral de GraphRAG da Microsoft Research](https://learn.microsoft.com/azure/developer/ai/intro-graphrag)
 - **Capstone Project 05**:
-  - *Name*: `EnterpriseKnowledge.AdvancedRag`
-  - *Path*: `src/Module05/EnterpriseKnowledge/`
-  - *Scope*: Production-grade enterprise RAG engine over complex technical documentation. Ingests hierarchical documents (Parent-Child), executes hybrid search (dense + sparse) with RRF fusion, applies a Cross-Encoder model to rerank the top 5 relevant passages, and synthesizes answers with verified citations. Accompanied by automated test suites using `Microsoft.Extensions.AI.Evaluation` to grade groundedness and fail builds on hallucination.
+  - *Nome*: `EnterpriseKnowledge.AdvancedRag`
+  - *Caminho*: `src/Module05/EnterpriseKnowledge/`
+  - *Escopo*: Mecanismo corporativo de RAG de nível de produção sobre documentação técnica complexa. Realiza ingestão de documentos hierárquicos (Parent-Child), executa busca híbrida (densa + esparsa) com fusão RRF, aplica um modelo de Cross-Encoder para reordenar as 5 passagens mais relevantes e sintetiza respostas com citações verificadas. Acompanhado por suítes de testes automatizados com `Microsoft.Extensions.AI.Evaluation` para pontuar groundedness e reprovar builds em caso de alucinação.
 
 ---
 
-### Module 06: Sovereign Local AI with Ollama vs. Cloud: Trade-off Analysis and Hybrid Strategy
-- **Context & Goals**: Run local open-source LLMs (Phi-3/4, Llama 3, DeepSeek) through Ollama with native .NET integration; comparative benchmarking: strict data privacy and local latency vs. cloud concurrency and compute capacity; hybrid architecture design (local-first with seamless cloud escalation).
-- **Abstractions & Frameworks**: `Microsoft.Extensions.AI.Ollama`, Ollama API, Docker.
-- **Principles & Patterns**: Liskov Substitution Principle (LSP - switching between Ollama and Azure without violating domain rules), Interface Segregation.
-- **Microsoft Learn References**:
-  - [Using an Ollama Chat Client in .NET](https://learn.microsoft.com/dotnet/ai/ichatclient#use-an-ollama-chat-client)
+### Módulo 06: IA Local Soberana com Ollama vs. Cloud: Análise de Trade-offs e Estratégia Híbrida
+- **Contexto & Objetivos**: Executar LLMs de código aberto locais (Phi-3/4, Llama 3, DeepSeek) via Ollama com integração nativa em .NET; benchmarking comparativo: privacidade estrita de dados e latência local vs. concorrência e capacidade computacional em nuvem; design de arquitetura híbrida (local-first com escalonamento transparente para a nuvem).
+- **Abstrações & Frameworks**: `Microsoft.Extensions.AI.Ollama`, API do Ollama, Docker.
+- **Princípios & Padrões**: Liskov Substitution Principle (LSP - alternância entre Ollama e Azure sem violar regras de domínio), Interface Segregation.
+- **Referências do Microsoft Learn**:
+  - [Utilizando um Ollama Chat Client em .NET](https://learn.microsoft.com/dotnet/ai/ichatclient#use-an-ollama-chat-client)
 - **Capstone Project 06**:
-  - *Name*: `HybridLocalCloud.Engine`
-  - *Path*: `src/Module06/HybridLocalCloud/`
-  - *Scope*: Document processing engine running locally on Ollama (`phi-4` or `llama3.2`). When a task requires advanced reasoning that exceeds local hardware, the application requests approval and dispatches sanitized data to cloud providers, generating a comparative telemetry report (VRAM/RAM vs billed tokens).
+  - *Nome*: `HybridLocalCloud.Engine`
+  - *Caminho*: `src/Module06/HybridLocalCloud/`
+  - *Escopo*: Mecanismo de processamento de documentos executado localmente no Ollama (`phi-4` ou `llama3.2`). Quando uma tarefa demanda raciocínio avançado que excede o hardware local, a aplicação solicita aprovação e despacha dados higienizados para provedores em nuvem, gerando um relatório comparativo de telemetria (VRAM/RAM vs tokens faturados).
 
 ---
 
-### Module 07: Advanced Prompt Engineering, Structured Notations (JSON/YAML/TON), and Multimodality
-- **Context & Goals**:
-  - Metaprompting techniques, Few-Shot exemplars, Chain-of-Thought (CoT), and strict separation of system and user message roles;
-  - **Structured Instruction Architecture**: Rigorous comparison between Free Prose vs Markdown vs XML Tags vs Structured Schemas (JSON & YAML);
-  - **Token Object Notation (TON)**: Fundamentals of TON as a compact data notation engineered to maximize information density for LLMs, stripping redundant delimiters and brackets, cutting token usage by 30%–40% while preserving hierarchy and strong typing;
-  - **Negative Constraint Adherence**: How structured formats (JSON/YAML/TON) mitigate attention drift and enforce strict obedience to business invariants and security boundaries;
-  - **Structured Outputs in .NET**: Deterministic output generation with `ChatResponseFormat.ForJsonSchema<T>`, strict schema validation with `System.Text.Json.Schema`, and strongly-typed C# DTOs;
-  - **Multimodality**: Multimodal analysis uniting text, image inputs, speech-to-text transcription (Whisper), and computer vision.
-- **Abstractions & Frameworks**: `ChatResponseFormat.ForJsonSchema<T>`, `System.Text.Json.Schema`, Azure AI Speech SDK, custom TON/YAML serializers for C#.
-- **Principles & Patterns**: Type Safety, Strongly-typed Data Transfer Objects (DTOs), Twelve-Factor Agent: Factor 4 (Structured I/O & TON/JSON Formats).
-- **Microsoft Learn References**:
-  - [Structured Output with IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#structured-output)
-  - [Structured Outputs with Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
+### Módulo 07: Engenharia Avançada de Prompts, Notações Estruturadas (JSON/YAML/TON) e Multimodalidade
+- **Contexto & Objetivos**:
+  - Técnicas de metaprompting, exemplos Few-Shot, Chain-of-Thought (CoT) e separação estrita de papéis (roles) em mensagens de sistema e de usuário;
+  - **Arquitetura de Instruções Estruturadas**: Comparação rigorosa entre Prosa Livre vs Markdown vs Tags XML vs Schemas Estruturados (JSON & YAML);
+  - **Token Object Notation (TON)**: Fundamentos de TON como uma notação compacta de dados projetada para maximizar a densidade de informação para LLMs, eliminando delimitadores e colchetes redundantes, reduzindo o uso de tokens em 30%–40% enquanto preserva a hierarquia e a tipagem forte;
+  - **Aderência a Restrições Negativas (Negative Constraint Adherence)**: Como formatos estruturados (JSON/YAML/TON) mitigam o desvio de atenção e reforçam a obediência estrita a invariantes de negócio e limites de segurança;
+  - **Structured Outputs em .NET**: Geração determinística de saída com `ChatResponseFormat.ForJsonSchema<T>`, validação estrita de schema com `System.Text.Json.Schema` e DTOs fortemente tipados em C#;
+  - **Multimodalidade**: Análise multimodal combinando texto, entradas de imagem, transcrição speech-to-text (Whisper) e visão computacional.
+- **Abstrações & Frameworks**: `ChatResponseFormat.ForJsonSchema<T>`, `System.Text.Json.Schema`, Azure AI Speech SDK, serializadores customizados de TON/YAML para C#.
+- **Princípios & Padrões**: Type Safety, Data Transfer Objects (DTOs) Fortemente Tipados, Twelve-Factor Agent: Fator 4 (I/O Estruturado & Formatos TON/JSON).
+- **Referências do Microsoft Learn**:
+  - [Saída Estruturada com IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#structured-output)
+  - [Saídas Estruturadas com Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/how-to/structured-outputs)
 - **Capstone Project 07**:
-  - *Name*: `PromptArchitectAndTriage.Service`
-  - *Path*: `src/Module07/PromptArchitect/`
-  - *Scope*: Corporate claims triage service ingesting multiple inputs (customer voice notes via Whisper, photo evidence via vision models) and generating an expert insurance assessment validated against a C# `record SinistroReport(...)`. Includes an automated benchmark comparing System Prompt execution across Prose, JSON, YAML, and TON, reporting: tokens consumed, latency, and compliance rate across 10 complex constraints.
+  - *Nome*: `PromptArchitectAndTriage.Service`
+  - *Caminho*: `src/Module07/PromptArchitect/`
+  - *Escopo*: Serviço de triagem de sinistros corporativos que consome múltiplas entradas (áudios de clientes via Whisper, fotos de evidências via modelos de visão) e gera um relatório pericial de sinistro validado contra um C# `record SinistroReport(...)`. Inclui um benchmark automatizado comparando a execução do System Prompt em Prosa, JSON, YAML e TON, reportando: tokens consumidos, latência e taxa de conformidade em 10 restrições complexas.
 
 ---
 
-### Module 08: Governance, Usage Contracts, Privacy, and Zero Data Retention
-- **Context & Goals**: Deep-dive into provider terms of service (OpenAI Enterprise, Azure OpenAI Data & Privacy, Anthropic Commercial Terms); data transit auditing, ephemeral retention policies, and opting out of customer data training (Zero Data Retention / HIPAA / GDPR).
-- **Abstractions & Frameworks**: Azure OpenAI Customer Managed Keys (CMK), Virtual Network (VNet) private endpoints, DLP (Data Loss Prevention) patterns.
-- **Principles & Patterns**: Privacy by Design, Zero Trust Architecture, Twelve-Factor: Factor X (Dev/Prod Security Parity).
-- **Microsoft Learn References**:
-  - [Data, Privacy, and Security for Azure OpenAI](https://learn.microsoft.com/legal/cognitive-services/openai/data-privacy)
-  - [Azure Security Baseline for AI Services](https://learn.microsoft.com/azure/ai-services/openai/concepts/security-baseline)
+### Módulo 08: Governança, Contratos de Uso, Privacidade e Zero Data Retention
+- **Contexto & Objetivos**: Análise aprofundada dos termos de serviço de provedores (OpenAI Enterprise, Azure OpenAI Data & Privacy, Termos Comerciais da Anthropic); auditoria de trânsito de dados, políticas de retenção efêmera e opt-out de treinamento com dados de clientes (Zero Data Retention / HIPAA / LGPD / GDPR).
+- **Abstrações & Frameworks**: Chaves Gerenciadas pelo Cliente do Azure OpenAI (CMK), endpoints privados em Virtual Network (VNet), padrões de DLP (Data Loss Prevention).
+- **Princípios & Padrões**: Privacy by Design, Arquitetura Zero Trust, Twelve-Factor: Fator X (Paridade de Segurança Dev/Prod).
+- **Referências do Microsoft Learn**:
+  - [Dados, Privacidade e Segurança para Azure OpenAI](https://learn.microsoft.com/legal/cognitive-services/openai/data-privacy)
+  - [Linha de Base de Segurança do Azure para Serviços de IA](https://learn.microsoft.com/azure/ai-services/openai/concepts/security-baseline)
 - **Capstone Project 08**:
-  - *Name*: `DataPrivacyAuditor.Tool`
-  - *Path*: `src/Module08/DataPrivacyAuditor/`
-  - *Scope*: Compliance auditing tool intercepting AI calls via HTTP middleware, inspecting response headers (verifying non-retention compliance flags), validating that sensitive data routes only through authorized endpoints and regions, and publishing an Azure Trust Center compliance report.
+  - *Nome*: `DataPrivacyAuditor.Tool`
+  - *Caminho*: `src/Module08/DataPrivacyAuditor/`
+  - *Escopo*: Ferramenta de auditoria de conformidade que intercepta chamadas de IA via middleware HTTP, inspecionando cabeçalhos de resposta (verificando flags de conformidade de não-retenção), validando que dados sensíveis trafeguem apenas por endpoints e regiões autorizadas, e publicando um relatório de conformidade do Azure Trust Center.
 
 ---
 
-### Module 09: Cross-Cutting Observability, Token FinOps, and Dashboards with OpenTelemetry
-- **Context & Goals**: End-to-end telemetry with OpenTelemetry (Metrics, Structured Logs, Distributed GenAI Traces); tracking token consumption (prompt, completion), per-model latency, session counts, and user volume; exporting telemetry to .NET Aspire Dashboard, Prometheus/Grafana, or Azure Monitor.
-- **Abstractions & Frameworks**: `OpenTelemetry`, `Microsoft.Extensions.AI` (`UseOpenTelemetry`), .NET Aspire, `System.Diagnostics.Activity`.
-- **Principles & Patterns**: Observability as Code, Twelve-Factor: Factor XI (Logs as Streams), Twelve-Factor Agent: Factor 8 (Comprehensive Observability & Traceability).
-- **Microsoft Learn References**:
-  - [Telemetry and Metrics in IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#telemetry)
-  - [Telemetry in .NET Aspire](https://learn.microsoft.com/dotnet/aspire/fundamentals/telemetry)
+### Módulo 09: Observabilidade Transversal, FinOps de Tokens e Dashboards com OpenTelemetry
+- **Contexto & Objetivos**: Telemetria ponta a ponta com OpenTelemetry (Métricas, Logs Estruturados, Distributed Traces de GenAI); rastreamento de consumo de tokens (prompt, completion), latência por modelo, contagem de sessões e volume de usuários; exportação de telemetria para o painel do .NET Aspire, Prometheus/Grafana ou Azure Monitor.
+- **Abstrações & Frameworks**: `OpenTelemetry`, `Microsoft.Extensions.AI` (`UseOpenTelemetry`), .NET Aspire, `System.Diagnostics.Activity`.
+- **Princípios & Padrões**: Observabilidade como Código (Observability as Code), Twelve-Factor: Fator XI (Logs como Fluxos), Twelve-Factor Agent: Fator 8 (Observabilidade Abrangente & Rastreabilidade).
+- **Referências do Microsoft Learn**:
+  - [Telemetria e Métricas em IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#telemetry)
+  - [Telemetria no .NET Aspire](https://learn.microsoft.com/dotnet/aspire/fundamentals/telemetry)
 - **Capstone Project 09**:
-  - *Name*: `GenAiObservability.Dashboard`
-  - *Path*: `src/Module09/GenAiObservability/`
-  - *Scope*: Distributed system orchestrated with .NET Aspire using `client.AsBuilder().UseOpenTelemetry().Build()`. Displays all LLM interactions in the Aspire Dashboard, cumulative tenant/user costs, error rates, cascading tool invocation traces, and automated FinOps budget alerts when daily spending limits are reached.
+  - *Nome*: `GenAiObservability.Dashboard`
+  - *Caminho*: `src/Module09/GenAiObservability/`
+  - *Escopo*: Sistema distribuído orquestrado com .NET Aspire utilizando `client.AsBuilder().UseOpenTelemetry().Build()`. Exibe todas as interações com LLMs no Aspire Dashboard, custos acumulados por tenant/usuário, taxas de erro, traces de invocações em cascata de ferramentas (tools) e alertas automatizados de orçamento de FinOps quando limites de gastos diários são atingidos.
 
 ---
 
-### Module 10: Offensive and Defensive Security: OWASP Top 10 for LLMs, Prompt Injection, and Guardrails
-- **Context & Goals**: Classical threats (Direct/Indirect Prompt Injection, Jailbreaking, System Prompt Extraction, Insecure Output Handling); sanitization and strict context isolation of system prompts vs untrusted user inputs; content moderation and programmatic guardrails.
-- **Abstractions & Frameworks**: Azure AI Content Safety SDK, C# Guardrail engines, Regex/Semantic Pre-validators.
-- **Principles & Patterns**: Defense in Depth, Fail-Safe Defaults, Twelve-Factor Agent: Factor 5 (Deterministic Guardrails vs Stochastic LLMs).
-- **Microsoft Learn References**:
-  - [Azure AI Content Safety Overview](https://learn.microsoft.com/azure/ai-services/content-safety/overview)
-  - [Content Filtering in Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter)
+### Módulo 10: Segurança Ofensiva e Defensiva: OWASP Top 10 for LLMs, Prompt Injection e Guardrails
+- **Contexto & Objetivos**: Ameaças clássicas (Direct/Indirect Prompt Injection, Jailbreaking, System Prompt Extraction, Insecure Output Handling); higienização e isolamento estrito de contexto entre prompts de sistema e entradas não confiáveis do usuário; moderação de conteúdo e guardrails programáticos.
+- **Abstrações & Frameworks**: Azure AI Content Safety SDK, mecanismos de Guardrails em C#, pré-validadores Semânticos e por Regex.
+- **Princípios & Padrões**: Defesa em Profundidade (Defense in Depth), Padrões à Prova de Falhas (Fail-Safe Defaults), Twelve-Factor Agent: Fator 5 (Guardrails Determinísticos vs LLMs Estocásticos).
+- **Referências do Microsoft Learn**:
+  - [Visão Geral do Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview)
+  - [Filtragem de Conteúdo no Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter)
 - **Capstone Project 10**:
-  - *Name*: `AiFirewall.Middleware`
-  - *Path*: `src/Module10/AiFirewall/`
-  - *Scope*: Custom `DelegatingChatClient` operating as an AI Web Application Firewall (WAF). Scans incoming messages against known prompt injection signatures, validates payloads against the Azure Content Safety API, and intercepts outgoing responses to redact leaked API keys or personally identifiable information (PII).
+  - *Nome*: `AiFirewall.Middleware`
+  - *Caminho*: `src/Module10/AiFirewall/`
+  - *Escopo*: `DelegatingChatClient` customizado operando como um Web Application Firewall (WAF) para IA. Faz varredura de mensagens recebidas contra assinaturas conhecidas de prompt injection, valida payloads contra a API do Azure Content Safety e intercepta respostas enviadas para mascarar/redigir chaves de API vazadas ou informações de identificação pessoal (PII).
 
 ---
 
-### Module 11: Classical Machine Learning with ML.NET: Predictive Models and GenAI Hybridization
-- **Context & Goals**: Data ingestion and pipelines (`IDataView`), training, validation, and inference entirely in C# without Python runtimes; regression, multiclass classification, and anomaly detection algorithms on logs and documents; deploying ML.NET models as fast, cost-effective intent routers prior to invoking LLMs.
-- **Abstractions & Frameworks**: `Microsoft.ML`, `MLContext`, `ITransformer`, `PredictionEnginePool`.
-- **Principles & Patterns**: Data Pipeline Pattern, Pre-filtering Pattern (Early Termination Pattern).
-- **Microsoft Learn References**:
-  - [Official ML.NET Documentation](https://learn.microsoft.com/dotnet/machine-learning/)
-  - [Predictive Model Tutorials with ML.NET](https://learn.microsoft.com/dotnet/machine-learning/tutorials/predict-prices)
+### Módulo 11: Machine Learning Clássico com ML.NET: Modelos Preditivos e Hibridização com GenAI
+- **Contexto & Objetivos**: Ingestão de dados e pipelines (`IDataView`), treinamento, validação e inferência inteiramente em C# sem runtimes de Python; algoritmos de regressão, classificação multiclasse e detecção de anomalias em logs e documentos; implantação de modelos ML.NET como roteadores de intenção rápidos e econômicos antes da invocação de LLMs.
+- **Abstrações & Frameworks**: `Microsoft.ML`, `MLContext`, `ITransformer`, `PredictionEnginePool`.
+- **Princípios & Padrões**: Data Pipeline Pattern, Padrão de Pré-filtragem (Early Termination Pattern).
+- **Referências do Microsoft Learn**:
+  - [Documentação Oficial do ML.NET](https://learn.microsoft.com/dotnet/machine-learning/)
+  - [Tutoriais de Modelos Preditivos com ML.NET](https://learn.microsoft.com/dotnet/machine-learning/tutorials/predict-prices)
 - **Capstone Project 11**:
-  - *Name*: `SmartSupportTriage.Hybrid`
-  - *Path*: `src/Module11/SmartSupportTriage/`
-  - *Scope*: Customer support ticket triage pipeline: an on-premises model trained with ML.NET predicts ticket category and severity in microseconds. Standard issues receive pre-canned deterministic responses; complex or anomalous tickets are context-enriched and escalated to the LLM pipeline for deep resolution.
+  - *Nome*: `SmartSupportTriage.Hybrid`
+  - *Caminho*: `src/Module11/SmartSupportTriage/`
+  - *Escopo*: Pipeline de triagem de tickets de suporte ao cliente: um modelo on-premises treinado com ML.NET prevê a categoria e a severidade do ticket em microssegundos. Problemas padrão recebem respostas determinísticas pré-elaboradas; tickets complexos ou anômalos são enriquecidos com contexto e escalados para o pipeline de LLM para resolução profunda.
 
 ---
 
-### Module 12: Extensibility with Model Context Protocol (MCP) in .NET
-- **Context & Goals**: The Model Context Protocol (MCP) as an open interoperability standard to connect LLMs to enterprise databases, tools, and internal APIs; building native C# MCP servers and clients; dynamic runtime tool injection into chat pipelines.
-- **Abstractions & Frameworks**: MCP Protocol (JSON-RPC / SSE / stdio), `Microsoft.Extensions.AI` Tool Calling / Function Invocation, C# MCP client/server SDKs.
-- **Principles & Patterns**: Adapter Pattern, Inversion of Control, Twelve-Factor Agent: Factor 6 (Tool Abstraction & MCP).
-- **Microsoft Learn References**:
-  - [Tools and Integrations in Agent Framework](https://learn.microsoft.com/agent-framework/agents/tools/)
-  - [Function and Tool Calling with IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#tool-calling)
+### Módulo 12: Extensibilidade com Model Context Protocol (MCP) em .NET
+- **Contexto & Objetivos**: O Model Context Protocol (MCP) como um padrão aberto de interoperabilidade para conectar LLMs a bancos de dados corporativos, ferramentas e APIs internas; construção de servidores e clientes MCP nativos em C#; injeção dinâmica de ferramentas em tempo de execução nos pipelines de chat.
+- **Abstrações & Frameworks**: Protocolo MCP (JSON-RPC / SSE / stdio), Chamada de Ferramentas / Invocação de Funções de `Microsoft.Extensions.AI`, SDKs de cliente/servidor MCP em C#.
+- **Princípios & Padrões**: Adapter Pattern, Inversão de Controle (IoC), Twelve-Factor Agent: Fator 6 (Abstração de Ferramentas & MCP).
+- **Referências do Microsoft Learn**:
+  - [Ferramentas e Integrações no Agent Framework](https://learn.microsoft.com/agent-framework/agents/tools/)
+  - [Invocação de Funções e Ferramentas com IChatClient](https://learn.microsoft.com/dotnet/ai/ichatclient#tool-calling)
 - **Capstone Project 12**:
-  - *Name*: `EnterpriseMcpServer.Connector`
-  - *Path*: `src/Module12/EnterpriseMcpServer/`
-  - *Scope*: Enterprise .NET MCP server exposing SQL database resources and REST API operations via standardized schemas. Followed by a C# client using `IChatClient` consuming tools over SSE, enabling the LLM to run secure, audited analytical queries safely.
+  - *Nome*: `EnterpriseMcpServer.Connector`
+  - *Caminho*: `src/Module12/EnterpriseMcpServer/`
+  - *Escopo*: Servidor MCP corporativo em .NET expondo recursos de banco de dados SQL e operações de API REST via schemas padronizados. Seguido por um cliente C# utilizando `IChatClient` que consome as ferramentas via SSE, permitindo que a LLM execute consultas analíticas seguras e auditadas com proteção.
 
 ---
 
-### Module 13: AI Agents with Microsoft Agent Framework (MAF), Semantic Kernel, and Declarative Agents
-- **Context & Goals**:
-  - Formal definition of an Agent (Persona, Tools, Memory, Autonomous Decision-Making);
-  - The **Microsoft Agent Framework** (`Microsoft.Agents.AI`) ecosystem and interoperability with `Microsoft.SemanticKernel.Agents`;
-  - **Declarative Agents**: Modeling agents following Microsoft's **Declarative Agent Manifest (JSON Schema / YAML / TON specs)**, cleanly decoupling behavioral specifications from C# execution logic;
-  - Agent lifecycles, thread isolation, and **Harness Agent** patterns (autonomous planning, task backlogs, context compaction, and tool authorization);
-  - Enforcing corporate governance with **Human-in-the-Loop (HITL)** for sensitive operations.
-- **Abstractions & Frameworks**: `Microsoft.Agents.AI` (`AIAgent`, `AIProjectClient`), `Microsoft.SemanticKernel.Agents`, Declarative Manifest Schemas (JSON/YAML/TON).
-- **Principles & Patterns**: Autonomous Agent Pattern, Human-in-the-Loop (HITL), Declarative Specification Pattern, Twelve-Factor Agent: Factor 11 (Human-in-the-Loop & Approval Gates) and Factor 12 (Declarative Specifications).
-- **Microsoft Learn References**:
-  - [Overview of Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/overview/)
-  - [Harness Agent Concepts](https://learn.microsoft.com/agent-framework/concepts/harness)
-  - [Microsoft Declarative Agent Manifest Schema](https://learn.microsoft.com/microsoft-365/copilot/extensibility/declarative-agent-manifest-1.8)
+### Módulo 13: Agentes de IA com Microsoft Agent Framework (MAF), Semantic Kernel e Declarative Agents
+- **Contexto & Objetivos**:
+  - Definição formal de um Agente (Persona, Ferramentas, Memória, Tomada de Decisão Autônoma);
+  - O ecossistema do **Microsoft Agent Framework** (`Microsoft.Agents.AI`) e interoperabilidade com `Microsoft.SemanticKernel.Agents`;
+  - **Agentes Declarativos (Declarative Agents)**: Modelagem de agentes seguindo o **Declarative Agent Manifest (especificações em JSON Schema / YAML / TON)** da Microsoft, desacoplando com clareza as especificações comportamentais da lógica de execução em C#;
+  - Ciclos de vida de agentes, isolamento de threads e padrões de **Harness Agent** (planejamento autônomo, backlogs de tarefas, compactação de contexto e autorização de ferramentas);
+  - Aplicação de governança corporativa com **Human-in-the-Loop (HITL)** para operações sensíveis.
+- **Abstrações & Frameworks**: `Microsoft.Agents.AI` (`AIAgent`, `AIProjectClient`), `Microsoft.SemanticKernel.Agents`, Schemas de Manifestos Declarativos (JSON/YAML/TON).
+- **Princípios & Padrões**: Padrão de Agente Autônomo, Human-in-the-Loop (HITL), Padrão de Especificação Declarativa, Twelve-Factor Agent: Fator 11 (Human-in-the-Loop & Approval Gates) e Fator 12 (Especificações Declarativas).
+- **Referências do Microsoft Learn**:
+  - [Visão Geral do Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/overview/)
+  - [Conceitos de Harness Agent](https://learn.microsoft.com/agent-framework/concepts/harness)
+  - [Schema do Manifesto de Agente Declarativo da Microsoft](https://learn.microsoft.com/microsoft-365/copilot/extensibility/declarative-agent-manifest-1.8)
 - **Capstone Project 13**:
-  - *Name*: `AutonomousDevAssistant.Agent`
-  - *Path*: `src/Module13/AutonomousDevAssistant/`
-  - *Scope*: Intelligent developer agent whose persona, tools, and governance policies are dynamically loaded from a declarative manifest (JSON/YAML/TON). The agent receives natural language engineering requests, builds in-memory execution plans, inspects repositories and edits code files via MCP, and pauses the execution runtime to demand explicit developer confirmation before high-risk operations (e.g., git commit, deployment).
+  - *Nome*: `AutonomousDevAssistant.Agent`
+  - *Caminho*: `src/Module13/AutonomousDevAssistant/`
+  - *Escopo*: Agente desenvolvedor inteligente cuja persona, ferramentas e políticas de governança são carregadas dinamicamente a partir de um manifesto declarativo (JSON/YAML/TON). O agente recebe solicitações de engenharia em linguagem natural, constrói planos de execução em memória, inspeciona repositórios e edita arquivos de código via MCP, pausando o runtime de execução para exigir confirmação explícita do desenvolvedor antes de operações de alto risco (ex.: git commit, deployment).
 
 ---
 
-### Module 14: Advanced Multi-Agent Orchestration: Graph Workflows, State Machines, and Parallel/Sequential Execution
-- **Context & Goals**:
-  - **Deterministic Multi-Agent Governance**: Overcoming "Agent Slop", infinite reasoning loops, and prompt drift in multi-agent systems by replacing unstructured prompt supervisors with explicit, mathematically bounded state graphs;
-  - **The StateFlow Paradigm (COLM 2024)**: Decoupling **Process Grounding** (deterministic state navigation, transition logic, loop termination bounds) from **Sub-task Solving** (localized LLM generation inside nodes);
-  - **David Harel's Statecharts (1987)**: Modeling multi-agent topologies using **Hierarchical Super-states (OR-states)** to prevent state explosion, **Orthogonal Regions (AND-states)** for concurrent parallel execution (fan-out/fan-in) with barrier synchronization, and **History States ($H$)**;
-  - **MetaAgent Graph Verification (ICML 2025)**: Validating state machine topologies in C# to statically detect deadlocks, unreachable states, and cyclic sink traps before runtime execution;
-  - **State Isolation & Memory Sanitization**: Preventing cross-agent context pollution and cascading hallucinations using `IResettableExecutor` in the Microsoft Agent Framework;
-  - **Distributed Sagas**: Long-running workflow persistence with MassTransit Saga State Machines and Redis, supporting durable Human-in-the-Loop checkpoints.
-- **Abstractions & Frameworks**: `Microsoft.Agents.AI.Workflows`, `Stateless` (Hierarchical State Machines in .NET), `Microsoft.Extensions.AI`, `IResettableExecutor`, `MassTransit` (Saga State Machines), `System.Diagnostics.ActivitySource`.
-- **Principles & Patterns**: Finite State Machine (FSM) & Hierarchical Statecharts (Harel), StateFlow Paradigm (COLM 2024), Saga Pattern with Compensatory Actions, Directed Acyclic Graph (DAG), Barrier / Fan-Out/Fan-In Pattern, Twelve-Factor Agent: Factor 1 (Deterministic Control Plane), Factor 3 (Event-Driven & Graph State Transitions), and Factor 11 (Human-in-the-Loop Approval Gates).
-- **Academic & Literature References**:
+### Módulo 14: Orquestração Multiagente Avançada: Workflows em Grafo, Máquinas de Estado e Execução Paralela/Sequencial
+- **Contexto & Objetivos**:
+  - **Governança Determinística Multiagente**: Superando o "Agent Slop", loops infinitos de raciocínio e desvio de prompt (prompt drift) em sistemas multiagente ao substituir supervisores de prompt não estruturados por grafos de estados explícitos e matematicamente delimitados;
+  - **O Paradigma StateFlow (COLM 2024)**: Desacoplando o **Process Grounding** (navegação determinística de estados, lógica de transição, limites de terminação de loop) da **Resolução de Subtarefas (Sub-task Solving)** (geração localizada por LLM dentro dos nós);
+  - **Statecharts de David Harel (1987)**: Modelagem de topologias multiagente utilizando **Superestados Hierárquicos (OR-states)** para evitar explosão combinatória de estados, **Regiões Ortogonais (AND-states)** para execução paralela concorrente (fan-out/fan-in) com sincronização por barreira, e **Estados de Histórico ($H$)**;
+  - **Verificação de Grafos com MetaAgent (ICML 2025)**: Validação estática de topologias de máquinas de estado em C# para detectar deadlocks, estados inalcançáveis e armadilhas cíclicas (cyclic sink traps) antes da execução em runtime;
+  - **Isolamento de Estado & Higienização de Memória**: Prevenção de contaminação cruzada de contexto entre agentes e alucinações em cascata utilizando `IResettableExecutor` no Microsoft Agent Framework;
+  - **Sagas Distribuídas**: Persistência de workflows de longa duração com MassTransit Saga State Machines e Redis, suportando checkpoints duráveis de Human-in-the-Loop.
+- **Abstrações & Frameworks**: `Microsoft.Agents.AI.Workflows`, `Stateless` (Máquinas de Estado Hierárquicas em .NET), `Microsoft.Extensions.AI`, `IResettableExecutor`, `MassTransit` (Saga State Machines), `System.Diagnostics.ActivitySource`.
+- **Princípios & Padrões**: Finite State Machine (FSM) & Hierarchical Statecharts (Harel), Paradigma StateFlow (COLM 2024), Saga Pattern com Ações Compensatórias, Directed Acyclic Graph (DAG), Padrão Barrier / Fan-Out/Fan-In, Twelve-Factor Agent: Fator 1 (Plano de Controle Determinístico), Fator 3 (Transições de Estado por Grafo e Event-Driven) e Fator 11 (Approval Gates com Human-in-the-Loop).
+- **Referências Acadêmicas & da Literatura**:
   - [StateFlow: Enhancing LLM Task-Solving through State-Driven Workflows (COLM 2024)](https://arxiv.org/abs/2403.11322)
   - [MetaAgent: Auto-Constructing FSM-based Multi-Agent Systems (ICML 2025)](https://arxiv.org/abs/2410.03816)
   - [Statecharts: A Visual Formalism for Complex Systems (David Harel, 1987)](https://www.sciencedirect.com/science/article/pii/0167642387900359)
   - [Practical UML Statecharts in C/C++: Event-Driven Programming (Miro Samek)](https://www.state-machine.com/psicc2)
-- **Microsoft Learn References**:
-  - [State Isolation in MAF Workflows](https://learn.microsoft.com/agent-framework/concepts/workflows/state)
-  - [Magentic Orchestration in Agent Framework](https://learn.microsoft.com/agent-framework/workflows/orchestrations/magentic)
-  - [Workflow Builders in Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/workflows/)
-- **Detailed Study Guide**:
-  - *Location*: [`docs/modules/module-14-multi-agent-orchestration-and-state-machines/STUDY_GUIDE.md`](file:///home/gilmar/Development/MafMastery/docs/modules/module-14-multi-agent-orchestration-and-state-machines/STUDY_GUIDE.md)
+- **Referências do Microsoft Learn**:
+  - [Isolamento de Estado em Workflows do MAF](https://learn.microsoft.com/agent-framework/concepts/workflows/state)
+  - [Orquestração Magentic no Agent Framework](https://learn.microsoft.com/agent-framework/workflows/orchestrations/magentic)
+  - [Workflow Builders no Microsoft Agent Framework](https://learn.microsoft.com/agent-framework/workflows/)
+- **Guia de Estudos Detalhado**:
+  - *Localização*: [`docs/modules/module-14-multi-agent-orchestration-and-state-machines/STUDY_GUIDE.md`](docs/modules/module-14-multi-agent-orchestration-and-state-machines/STUDY_GUIDE.md)
 - **Capstone Projects 14**:
-  - *Project 14.1 (Initial Workflow Project)*: `EmailApprovalWorkflow.StateMachine`
-    - *Path*: `src/Module14/EmailApprovalWorkflow/`
-    - *Run & Test*: `dotnet run --project src/Module14/EmailApprovalWorkflow/src/EmailApprovalWorkflow.Cli`
-    - *Scope*: Foundational single-agent workflow implementing the StateFlow paradigm with `Stateless` and `Microsoft.Extensions.AI`. Demonstrates strongly-typed states and triggers (`Drafting`, `AwaitingHumanApproval`, `Dispatching`) with guarded transitions (`PermitIf`), mathematically guaranteeing that destructive actions cannot execute without explicit human approval.
-  - *Project 14.2 (Advanced Enterprise Multi-Agent Project)*: `EnterpriseAudit.MultiAgentWorkflow`
-    - *Path*: `src/Module14/EnterpriseAudit/`
-    - *Run & Test*:
-      - Orchestrator CLI: `dotnet run --project src/Module14/EnterpriseAudit/src/EnterpriseAudit.Cli`
-      - Test Suite: `dotnet test src/Module14/EnterpriseAudit/EnterpriseAudit.slnx`
-    - *Scope*: StateFlow-driven hierarchical statechart orchestrator in C# (.NET 10). Executes an enterprise compliance audit across 3 specialized agents: *Regulations Researcher*, *Financial Data Analyst*, and *Compliance Auditor*. Parallel research runs inside an orthogonal (AND-state) region with barrier synchronization; discrepancies trigger conditional remediation states bounded by a maximum transition counter (preventing infinite loops); destructive final sign-offs require an unskippable Human-in-the-Loop approval gate with isolated state across concurrent sessions.
+  - *Projeto 14.1 (Projeto Inicial de Workflow)*: `EmailApprovalWorkflow.StateMachine`
+    - *Caminho*: `src/Module14/EmailApprovalWorkflow/`
+    - *Executar & Testar*: `dotnet run --project src/Module14/EmailApprovalWorkflow/src/EmailApprovalWorkflow.Cli`
+    - *Escopo*: Workflow fundamental com agente único implementando o paradigma StateFlow com `Stateless` e `Microsoft.Extensions.AI`. Demonstra estados e triggers fortemente tipados (`Drafting`, `AwaitingHumanApproval`, `Dispatching`) com transições protegidas (`PermitIf`), garantindo matematicamente que ações destrutivas não sejam executadas sem aprovação humana explícita.
+  - *Projeto 14.2 (Projeto Avançado Multiagente Corporativo)*: `EnterpriseAudit.MultiAgentWorkflow`
+    - *Caminho*: `src/Module14/EnterpriseAudit/`
+    - *Executar & Testar*:
+      - CLI do Orquestrador: `dotnet run --project src/Module14/EnterpriseAudit/src/EnterpriseAudit.Cli`
+      - Suíte de Testes: `dotnet test src/Module14/EnterpriseAudit/EnterpriseAudit.slnx`
+    - *Escopo*: Orquestrador de statechart hierárquico orientado a StateFlow em C# (.NET 10). Executa uma auditoria de conformidade corporativa através de 3 agentes especializados: *Regulations Researcher*, *Financial Data Analyst* e *Compliance Auditor*. A pesquisa paralela é executada dentro de uma região ortogonal (AND-state) com sincronização por barreira; discrepâncias disparam estados condicionais de remediação delimitados por um contador máximo de transições (prevenindo loops infinitos); sign-offs finais destrutivos exigem um gate de aprovação obrigatório com Human-in-the-Loop com isolamento de estado entre sessões concorrentes.
 
 ---
 
-### Module 15: Design by Contract (DbC) for Autonomous Agents in C#
-- **Context & Goals**:
-  - Adapting Bertrand Meyer's classical **Design by Contract (DbC)** principles to AI Agent architectures;
-  - Formal instruction decomposition: **Preconditions** (input validation and initial state), **Invariants** (strict business rules the agent must never violate), and **Postconditions / Acceptance Criteria** (deterministic *Definition of Done*);
-  - Parsing and compiling declarative contracts from Markdown files with Frontmatter (`*.agent.md`) using `Markdig` and `YamlDotNet` into strongly-typed C# contract records;
-  - Deterministic postcondition validation engine and autonomous self-correction loops (*Self-Correction / Retry Loops*) whenever the LLM outputs violate acceptance criteria.
-- **Abstractions & Frameworks**: `Markdig` (with `UseYamlFrontMatter`), `YamlDotNet`, `System.Text.Json.Schema`, `Microsoft.Extensions.AI`.
-- **Principles & Patterns**: Design by Contract (DbC), Liskov Substitution Principle (LSP), Open/Closed Principle (OCP), Twelve-Factor Agent: Factor 1 (Deterministic Logic vs Stochastic Model) and Factor 5 (Deterministic Guardrails).
-- **Microsoft Learn References**:
-  - [Extensibility and Dependency Injection in .NET](https://learn.microsoft.com/dotnet/core/extensions/dependency-injection)
-  - [Harness Agent and Validation Concepts](https://learn.microsoft.com/agent-framework/concepts/harness)
+### Módulo 15: Design by Contract (DbC) para Agentes Autônomos em C#
+- **Contexto & Objetivos**:
+  - Adaptação dos princípios clássicos de **Design by Contract (DbC)** de Bertrand Meyer para arquiteturas de Agentes de IA;
+  - Decomposição formal de instruções: **Pré-condições (Preconditions)** (validação de entradas e estado inicial), **Invariantes (Invariants)** (regras estritas de negócio que o agente nunca deve violar) e **Pós-condições / Critérios de Aceitação (Postconditions / Acceptance Criteria)** (*Definition of Done* determinística);
+  - Parsing e compilação de contratos declarativos a partir de arquivos Markdown com Frontmatter (`*.agent.md`) utilizando `Markdig` e `YamlDotNet` em records de contrato fortemente tipados em C#;
+  - Mecanismo determinístico de validação de pós-condições e loops de autocorreção autônoma (*Self-Correction / Retry Loops*) sempre que as saídas do LLM violarem os critérios de aceitação.
+- **Abstrações & Frameworks**: `Markdig` (com `UseYamlFrontMatter`), `YamlDotNet`, `System.Text.Json.Schema`, `Microsoft.Extensions.AI`.
+- **Princípios & Padrões**: Design by Contract (DbC), Liskov Substitution Principle (LSP), Open/Closed Principle (OCP), Twelve-Factor Agent: Fator 1 (Lógica Determinística vs Modelo Estocástico) e Fator 5 (Guardrails Determinísticos).
+- **Referências do Microsoft Learn**:
+  - [Extensibilidade e Injeção de Dependência em .NET](https://learn.microsoft.com/dotnet/core/extensions/dependency-injection)
+  - [Conceitos de Validação e Harness Agent](https://learn.microsoft.com/agent-framework/concepts/harness)
 - **Capstone Projects 15**:
-  - *Project 15.1*: `DbcContractParser.Core` — Library and CLI parsing `*.agent.md` files, validating the syntax of preconditions, invariants, and acceptance criteria into strongly-typed `record AgentContract(...)` objects.
-  - *Project 15.2*: `ContractEnforcer.Runner` — Legal and tax analysis agent whose execution is bounded by deterministic postcondition validation. If the LLM hallucinates or omits an obligatory clause required by the Markdown contract, the runtime rejects completion and re-executes the step, injecting the contractual violation as corrective feedback.
+  - *Projeto 15.1*: `DbcContractParser.Core` — Biblioteca e CLI que faz o parsing de arquivos `*.agent.md`, validando a sintaxe de pré-condições, invariantes e critérios de aceitação em objetos `record AgentContract(...)` fortemente tipados.
+  - *Projeto 15.2*: `ContractEnforcer.Runner` — Agente de análise jurídica e tributária cuja execução é delimitada por validação determinística de pós-condições. Se o LLM alucinar ou omitir uma cláusula obrigatória exigida pelo contrato em Markdown, o runtime rejeita a conclusão e reexecuta o passo, injetando a violação contratual como feedback corretivo.
 
 ---
 
-### Module 16: Grand Master Capstone — The Enterprise Agentic Platform
-- **Context & Goals**:
-  - Definitive convergence of **ALL curriculum disciplines (Modules 01 to 15)** into a production-grade enterprise platform (*Production-Ready Enterprise Platform*);
-  - Architecture and implementation of an **Autonomous Agent Platform** in C# .NET serving as an agnostic AI microservice host across the enterprise;
-  - Hot-reload and Multi-tenancy support: publish and update agents in production simply by adding new `*.agent.md` contract files or `*.workflow.md` graph manifests to watched Git repositories, without recompiling C# code;
-  - Full end-to-end infrastructure integration:
-    - Unified gateway with Polly resilience (Modules 1 and 2);
-    - Comparative framework analysis and performance benchmarks (Module 3);
-    - Resilient user sessions and memory management in Redis (Module 4);
-    - Enterprise Hybrid RAG with GraphRAG and Groundedness Evals (Module 5);
-    - Hybrid local Ollama + cloud Azure/OpenRouter deployment (Module 6);
-    - Token optimization with TON notation and Structured Outputs (Module 7);
-    - Data privacy auditing and Zero Data Retention compliance (Module 8);
-    - Comprehensive OpenTelemetry observability in .NET Aspire Dashboard (Module 9);
-    - AI WAF and Prompt Injection defense (Module 10);
-    - ML.NET predictive pre-filtering (Module 11);
-    - Dynamically distributed tools via Model Context Protocol (Module 12);
-    - MAF Agent orchestration and graph workflows (Modules 13 and 14);
-    - Strict contractual governance via Design by Contract (Module 15).
-- **Abstractions & Frameworks**: Complete platform stack (`Microsoft.Agents.AI`, `Microsoft.Extensions.AI`, `Microsoft.Extensions.AI.Evaluation`, `OpenTelemetry`, `Polly`, `.NET Aspire`, `ML.NET`, `MCP`, `StackExchange.Redis`, `Markdig`).
-- **Principles & Patterns**: The Twelve-Factor App & The Twelve-Factor Agent, Clean Architecture / DDD, Enterprise Integration Patterns, Zero Trust Architecture.
+### Módulo 16: Grand Master Capstone — A Plataforma Agêntica Corporativa
+- **Contexto & Objetivos**:
+  - Convergência definitiva de **TODAS as disciplinas do currículo (Módulos 01 a 15)** em uma plataforma corporativa pronta para produção (*Production-Ready Enterprise Platform*);
+  - Arquitetura e implementação de uma **Plataforma de Agentes Autônomos** em C# .NET que atua como host agnóstico de microsserviços de IA para toda a organização;
+  - Suporte a Hot-reload e Multi-tenancy: publique e atualize agentes em produção simplesmente adicionando novos arquivos de contrato `*.agent.md` ou manifestos de grafo `*.workflow.md` a repositórios Git monitorados, sem necessidade de recompilar código C#;
+  - Integração de infraestrutura completa de ponta a ponta:
+    - Gateway unificado com resiliência via Polly (Módulos 1 e 2);
+    - Análise comparativa de frameworks e benchmarks de performance (Módulo 3);
+    - Sessões resilientes de usuário e gerenciamento de memória em Redis (Módulo 4);
+    - RAG Híbrido Corporativo com GraphRAG e Evals de Groundedness (Módulo 5);
+    - Implantação híbrida com Ollama local + Azure/OpenRouter em nuvem (Módulo 6);
+    - Otimização de tokens com notação TON e Saídas Estruturadas (Módulo 7);
+    - Auditoria de privacidade de dados e conformidade com Zero Data Retention (Módulo 8);
+    - Observabilidade abrangente com OpenTelemetry no painel do .NET Aspire (Módulo 9);
+    - WAF para IA e defesa contra Prompt Injection (Módulo 10);
+    - Pré-filtragem preditiva com ML.NET (Módulo 11);
+    - Ferramentas distribuídas dinamicamente via Model Context Protocol (Módulo 12);
+    - Orquestração de agentes MAF e workflows em grafo (Módulos 13 e 14);
+    - Governança contratual estrita via Design by Contract (Módulo 15).
+- **Abstrações & Frameworks**: Stack completa da plataforma (`Microsoft.Agents.AI`, `Microsoft.Extensions.AI`, `Microsoft.Extensions.AI.Evaluation`, `OpenTelemetry`, `Polly`, `.NET Aspire`, `ML.NET`, `MCP`, `StackExchange.Redis`, `Markdig`).
+- **Princípios & Padrões**: The Twelve-Factor App & The Twelve-Factor Agent, Clean Architecture / DDD, Enterprise Integration Patterns, Arquitetura Zero Trust.
 - **Capstone Project 16 (Grand Finale Capstone)**:
-  - *Name*: `EnterpriseAgenticPlatform.Host`
-  - *Path*: `src/Module16/EnterpriseAgenticPlatform/`
-  - *Scope*: The definitive enterprise AI platform in .NET. A distributed solution orchestrated with .NET Aspire that provisions an agent execution cluster, delivers a web portal for FinOps metrics and contract audits, hosts an enterprise MCP tool catalog, and executes complex business workflows (e.g., *Automated Supplier Onboarding* encompassing legal, tax, and security audits) driven 100% by declarative Markdown contracts with mathematical, deterministic compliance guarantees.
+  - *Nome*: `EnterpriseAgenticPlatform.Host`
+  - *Caminho*: `src/Module16/EnterpriseAgenticPlatform/`
+  - *Escopo*: A plataforma definitiva de IA corporativa em .NET. Uma solução distribuída orquestrada com .NET Aspire que provisiona um cluster de execução de agentes, disponibiliza um portal web para métricas de FinOps e auditorias de contratos, hospeda um catálogo corporativo de ferramentas MCP e executa workflows de negócio complexos (ex.: *Automated Supplier Onboarding* abrangendo auditorias jurídica, tributária e de segurança) orientados 100% por contratos declarativos em Markdown com garantias matemáticas e determinísticas de conformidade.
 
 ---
 
-## 2. How to Use this Repository
+## 2. Como Utilizar este Repositório
 
-Each module above includes clearly defined boundaries and metadata so you can follow it as an iterative, self-paced learning path:
+Cada módulo acima inclui limites e metadados claramente definidos para que você possa segui-lo como uma trilha de aprendizagem iterativa e no seu próprio ritmo:
 
-1. **Study Guide and Specification Generation**: Use the **Meta-Prompt in Section 3** to generate a dedicated Markdown specification at `docs/modules/module-XX-<name>/STUDY_GUIDE.md` for your chosen module. This guide provides in-depth theory, cognitive checkpoints, and the full architectural specification for the capstone project.
-2. **Review and Checkpoint Validation**: Read the generated study guide, explore the referenced Microsoft Learn links, and validate each conceptual checkpoint before writing code.
-3. **Build the Capstone Project**: Follow the architectural specification in the guide to implement the project in C# (.NET 10 LTS) inside the corresponding modular folder in `src/ModuleXX/<ProjectName>` (for example: `src/Module01/AiProviderBenchmarker/`, `src/Module02/SmartRouter/`). Any supplementary projects or quick didactic demos should also be located inside their module folder (e.g., `src/Module01/SimpleChatDemo/`).
-4. **Continuous Improvement**: Each capstone project independently implements automated unit/integration tests, observability instrumentation, and software engineering best practices incrementally.
+1. **Geração do Guia de Estudos e Especificação**: Utilize o **Meta-Prompt na Seção 3** para gerar uma especificação em Markdown dedicada em `docs/modules/module-XX-<nome>/STUDY_GUIDE.md` para o módulo escolhido. Esse guia fornece teoria aprofundada, checkpoints cognitivos e a especificação arquitetural completa para o capstone project.
+2. **Revisão e Validação de Checkpoints**: Leia o guia de estudos gerado, explore os links recomendados do Microsoft Learn e valide cada checkpoint conceitual antes de escrever código.
+3. **Construção do Capstone Project**: Siga a especificação arquitetural do guia para implementar o projeto em C# (.NET 10 LTS) dentro do diretório modular correspondente em `src/ModuleXX/<ProjectName>` (por exemplo: `src/Module01/AiProviderBenchmarker/`, `src/Module02/SmartRouter/`). Quaisquer projetos suplementares ou demonstrações didáticas rápidas também devem ser localizados dentro do diretório de seu respectivo módulo (ex.: `src/Module01/SimpleChatDemo/`).
+4. **Melhoria Contínua**: Cada capstone project implementa de forma independente testes unitários/integração automatizados, instrumentação de observabilidade e boas práticas de engenharia de software de maneira incremental.
 
 ---
 
-## 3. Meta-Prompt: Generator of Study Guides and Architectural Specifications
+## 3. Meta-Prompt: Gerador de Guias de Estudo e Especificações Arquiteturais
 
-Copy and send the prompt below to your LLM (or execute it within this same AI session), specifying your desired module (for example: `"Execute the Meta-Prompt for Module 01"`).
+Copie e envie o prompt abaixo para sua LLM (ou execute-o dentro desta mesma sessão de IA), especificando o módulo desejado (por exemplo: `"Execute o Meta-Prompt para o Módulo 01"`).
 
-The LLM will generate a comprehensive Markdown guide in `docs/modules/module-XX-<name>/STUDY_GUIDE.md`, serving as your textbook and engineering specification for that module.
+A LLM gerará um guia abrangente em Markdown em `docs/modules/module-XX-<nome>/STUDY_GUIDE.md`, servindo como seu material didático e especificação de engenharia para aquele módulo.
 
 ````markdown
 # SYSTEM PROMPT: SENIOR SOFTWARE ARCHITECT & AI INSTRUCTOR (.NET / C#)
 
 ## ROLE AND OBJECTIVE
-You are a Senior Software Architect and Artificial Intelligence Specialist within the .NET ecosystem.
-Your mission is to read the syllabus of a specific module from the **MafMastery (README.md)** repository and generate a comprehensive, exhaustive, and technically rigorous Markdown document at:
+Você é um Arquiteto de Software Sênior e Especialista em Inteligência Artificial no ecossistema .NET.
+Sua missão é ler o programa de um módulo específico do repositório **MafMastery (README.md)** e gerar um documento Markdown abrangente, exaustivo e tecnicamente rigoroso em:
 `docs/modules/module-{{MODULE_NUMBER}}-{{MODULE_NAME}}/STUDY_GUIDE.md`
 
-This document must NOT contain the final code of the implemented project, but rather:
-1. Thorough theoretical study material;
-2. Self-assessment cognitive checkpoints;
-3. The complete technical and architectural specification to guide the development of the module's Capstone Project.
+Este documento NÃO deve conter o código final do projeto implementado, mas sim:
+1. Material aprofundado de estudo teórico;
+2. Checkpoints cognitivos de autoavaliação;
+3. A especificação técnica e arquitetural completa para orientar o desenvolvimento do Capstone Project do módulo.
 
 ---
 
 ## DESIGN AND ENGINEERING GUIDELINES
-All content must reflect the four pillars of MafMastery:
-- **Clean Architecture & DDD**: Strict separation of concerns (Domain, Application, Infrastructure, Presentation).
-- **SOLID Principles**: Concrete demonstrations of how SRP, OCP, LSP, ISP, and DIP are applied to AI components in this module.
-- **Classical Design Patterns**: Identification and specification of applied patterns (e.g., Decorator via DelegatingChatClient, Strategy, Factory, Adapter via MCP, Saga/DAG).
-- **The Twelve-Factor App & The Twelve-Factor Agent**: Practical adoption of relevant factors (Stateless Runtime, Structured I/O with TON/JSON, Backing Services, Observability as Code, Deterministic Guardrails, Design by Contract).
-- **Target Technology**: .NET 10 (LTS) and modern C#, prioritizing official Microsoft abstractions (`Microsoft.Extensions.AI`, `Microsoft.Agents.AI`, `Microsoft.Extensions.AI.Evaluation`, `OpenTelemetry`, etc.).
+Todo o conteúdo deve refletir os quatro pilares do MafMastery:
+- **Clean Architecture & DDD**: Separação estrita de responsabilidades (Domain, Application, Infrastructure, Presentation).
+- **SOLID Principles**: Demonstrações concretas de como SRP, OCP, LSP, ISP e DIP são aplicados aos componentes de IA neste módulo.
+- **Design Patterns Clássicos**: Identificação e especificação de padrões aplicados (ex.: Decorator via DelegatingChatClient, Strategy, Factory, Adapter via MCP, Saga/DAG).
+- **The Twelve-Factor App & The Twelve-Factor Agent**: Adoção prática de fatores relevantes (Stateless Runtime, I/O Estruturado com TON/JSON, Backing Services, Observabilidade como Código, Guardrails Determinísticos, Design by Contract).
+- **Tecnologia Alvo**: .NET 10 (LTS) e C# moderno, priorizando abstrações oficiais da Microsoft (`Microsoft.Extensions.AI`, `Microsoft.Agents.AI`, `Microsoft.Extensions.AI.Evaluation`, `OpenTelemetry`, etc.).
 
 ---
 
-## MANDATORY STRUCTURE OF `STUDY_GUIDE.md`
+## ESTRUTURA OBRIGATÓRIA DE `STUDY_GUIDE.md`
 
-The generated document must strictly adhere to the following structured outline:
+O documento gerado deve seguir estritamente o seguinte roteiro estruturado:
 
-### # Module {{NUMBER}}: {{MODULE NAME}} — Study Guide and Engineering Specification
+### # Module {{NUMBER}}: {{MODULE NAME}} — Guia de Estudos e Especificação de Engenharia
 
-#### 1. Overview and Learning Goals
-- Executive summary of the real-world market challenge solved by this module.
-- Practical engineering skills acquired upon completion.
+#### 1. Visão Geral e Objetivos de Aprendizagem
+- Resumo executivo do desafio real de mercado resolvido por este módulo.
+- Habilidades práticas de engenharia adquiridas após a conclusão.
 
-#### 2. In-Depth Theoretical Foundations
-- Exhaustive conceptual explanation of each syllabus topic.
-- Deep-dive into .NET runtime internals and AI invocation mechanics (memory allocation, asynchronous concurrency with `Task`/`IAsyncEnumerable`, token streaming pipelines).
-- Technical trade-offs, advantages, disadvantages, and common production pitfalls (*Gotchas & Anti-patterns*).
+#### 2. Fundamentos Teóricos Aprofundados
+- Explicação conceitual exaustiva de cada tópico do programa.
+- Mergulho profundo nos aspectos internos do runtime .NET e mecânicas de invocação de IA (alocação de memória, concorrência assíncrona com `Task`/`IAsyncEnumerable`, pipelines de streaming de tokens).
+- Trade-offs técnicos, vantagens, desvantagens e armadilhas comuns em produção (*Gotchas & Anti-patterns*).
 
-#### 3. Architectural Principles and Patterns Mapping
-- **SOLID in this Module**: Table or itemized list detailing where each of the 5 principles operates.
-- **Applied Design Patterns**: Selected patterns and their architectural rationale.
-- **Twelve-Factor App & Agent**: Specific factors fulfilled and implementation guidance.
-- **Architectural Diagram**: Conceptual Mermaid diagram (`graph TD` or `sequenceDiagram`) illustrating interactions between the domain, AI pipeline, and external services.
+#### 3. Mapeamento de Princípios Arquiteturais e Padrões
+- **SOLID neste Módulo**: Tabela ou lista detalhada indicando onde cada um dos 5 princípios atua.
+- **Design Patterns Aplicados**: Padrões selecionados e sua justificativa arquitetural.
+- **Twelve-Factor App & Agent**: Fatores específicos atendidos e diretrizes de implementação.
+- **Diagrama Arquitetural**: Diagrama conceitual em Mermaid (`graph TD` ou `sequenceDiagram`) ilustrando interações entre o domínio, o pipeline de IA e serviços externos.
 
-#### 4. Cognitive Learning Checkpoints
-- List of 5 to 8 conceptual questions and architectural scenarios, complete with answer keys and rationale for pre-code self-assessment.
+#### 4. Checkpoints Cognitivos de Aprendizagem
+- Lista de 5 a 8 questões conceituais e cenários arquiteturais, completos com gabarito fundamentado para autoavaliação prévia à escrita do código.
 
-#### 5. Recommended Reading & Microsoft Learn Grounding
-- Curated list of official Microsoft Learn links (API documentation, architectural guides, and official NuGet packages).
+#### 5. Leituras Recomendadas & Fundamentação no Microsoft Learn
+- Lista curada de links oficiais do Microsoft Learn (documentação de APIs, guias arquiteturais e pacotes NuGet oficiais).
 
-#### 6. Capstone Project Technical Specification
-- **Project Name**: Standardized project name as defined in README.
-- **Solution Path**: Standardized path under the module directory: `src/Module{{NUMBER}}/{{PROJECT_NAME}}/`.
-- **Scope & Business Problem**: Simulated enterprise use case.
-- **Functional Requirements (FRs)**: Numbered list (FR-01, FR-02...) defining required capabilities.
-- **Non-Functional Requirements (NFRs)**: Latency, resilience, observability, decoupling, and memory allocation constraints.
+#### 6. Especificação Técnica do Capstone Project
+- **Project Name**: Nome padronizado do projeto conforme definido no README.
+- **Solution Path**: Caminho padronizado sob o diretório do módulo: `src/Module{{NUMBER}}/{{PROJECT_NAME}}/`.
+- **Scope & Business Problem**: Caso de uso corporativo simulado.
+- **Functional Requirements (FRs)**: Lista numerada (FR-01, FR-02...) definindo as capacidades exigidas.
+- **Non-Functional Requirements (NFRs)**: Restrições de latência, resiliência, observabilidade, desacoplamento e alocação de memória.
 - **Project and Directory Structure (Clean Architecture)**:
-  - Example: `Domain`, `Application`, `Infrastructure`, `Presentation` under `src/Module{{NUMBER}}/{{PROJECT_NAME}}/`.
+  - Exemplo: `Domain`, `Application`, `Infrastructure`, `Presentation` sob `src/Module{{NUMBER}}/{{PROJECT_NAME}}/`.
 - **Core Interface Contracts and Entities**:
-  - C# code showcasing only foundational contracts (interfaces, records, DTOs, and method signatures) without concrete business logic implementations.
+  - Código C# demonstrando apenas contratos fundamentais (interfaces, records, DTOs e assinaturas de métodos), sem implementações de lógica de negócio concreta.
 - **Acceptance Criteria & Definition of Done (DoD)**:
-  - Formal checklist to consider the project complete.
+  - Checklist formal para considerar o projeto concluído.
 - **Minimum Testing Plan**:
-  - Required Unit Test scenarios (mocking with xUnit/Moq/NSubstitute) and Integration Test requirements.
+  - Cenários de testes unitários obrigatórios (mocking com xUnit/Moq/NSubstitute) e requisitos de testes de integração.
 
-#### 7. Step-by-Step Build Roadmap
-- Ordered logical sequence (Step 1 to Step N) guiding the developer to build the software incrementally and testably, including explicit terminal commands for project initialization, running (`dotnet run --project ...`), and testing (`dotnet test ...`).
+#### 7. Roteiro Passo a Passo de Construção
+- Sequência lógica ordenada (Passo 1 ao Passo N) orientando o desenvolvedor a construir o software de forma incremental e testável, incluindo comandos explícitos de terminal para inicialização do projeto, execução (`dotnet run --project ...`) e testes (`dotnet test ...`).
 ````
